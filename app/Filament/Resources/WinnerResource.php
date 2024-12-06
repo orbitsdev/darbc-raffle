@@ -34,7 +34,7 @@ class WinnerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('member')->formatStateUsing(function (Model $record) {
-                    return $record->member->fullname;
+                    return $record->member->fullName;
                 })
                     ->searchable(query: function (Builder $query, string $search): Builder {
                         return $query->whereHas('member', function ($query) use ($search) {
