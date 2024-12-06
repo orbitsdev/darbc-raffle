@@ -7,8 +7,11 @@ use Filament\Tables;
 use App\Models\Event;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Exports\WinnersExport;
+use Illuminate\Support\Carbon;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\FilamentForm;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Actions\ActionGroup;
@@ -69,6 +72,33 @@ class EventResource extends Resource
                         return !$record->prizes()->where('quantity', '>', 0)->exists();
                         // return $record->totalBatches() <= 0;
                     }),
+
+                    Action::make('Winners')
+  
+    ->action(function (Model $record) {
+
+        $startDate = $record->start_date ? Carbon::parse($record->start_date)->format('F j, Y') : 'Unknown Start';
+        $endDate = $record->end_date ? Carbon::parse($record->end_date)->format('F j, Y') : 'Unknown End';
+        $filename = $record->name . ' - ' . $startDate . ' to ' . $endDate . ' - Winners.xlsx';
+        
+        return Excel::download(new WinnersExport($record), $filename);
+        
+    })
+    
+   
+    ->icon('heroicon-o-arrow-down-tray')
+    ->requiresConfirmation()
+    ->modalHeading('Export Winners')
+    ->modalSubheading('Download the winners of the event as an Excel report for your reference.')
+    ->modalButton('Download Report')
+    ->label('Export Winners')->hidden(function (Model $record) {
+    
+                           
+        return !$record->prizes()->whereHas('winners')->exists();
+    // return $record->totalBatches() <= 0;
+})
+    ,
+
 
                 ActionGroup::make([
                     Tables\Actions\EditAction::make(),
