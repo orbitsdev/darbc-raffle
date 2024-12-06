@@ -139,6 +139,7 @@ class FilamentForm extends Controller
                     ->searchable()
                         ->preload()->columnSpanFull(),
                     Select::make('prize_id')
+                         ->disabled(fn(string $operation): bool => $operation === 'edit')
                         ->options(Prize::pluck('name', 'id'))->label('Prize')
 
                         // ->relationship(name: 'event', titleAttribute: 'name',ignoreRecord: true)
