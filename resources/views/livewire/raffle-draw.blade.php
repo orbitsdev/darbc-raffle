@@ -7,7 +7,7 @@
     
 
     <div wire:stream="winner" class="rounded m-10 h-32 flex items-center justify-center text-7xl font-extrabold text-white bg-black/50 shadow-xl  px-8">
-        {{ $winner?->first_name ?? '🎉 Click the Raffle Button to Begin! 🎉' }}
+        {{ $winner?->fullname ?? '🎉 Click the Raffle Button to Begin! 🎉' }}
     </div>
 
     <div>

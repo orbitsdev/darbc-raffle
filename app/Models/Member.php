@@ -16,13 +16,25 @@ class Member extends Model
     }
 
     public function getFullNameAttribute()
-{
-    $firstName = $this->first_name ?? '';
-    $lastName = $this->last_name ?? '';
-
-    return $firstName . ' ' . $lastName;
-}
-
+    {
+        $lastName = $this->last_name ?? '';
+        $firstName = $this->first_name ?? '';
+        $middleName = $this->middle_name ?? '';
+    
+        // Format: LastName, FirstName MiddleName
+        $fullName = trim($lastName);
+    
+        if (!empty($firstName)) {
+            $fullName .= ', ' . trim($firstName);
+        }
+    
+        if (!empty($middleName)) {
+            $fullName .= ' ' . trim($middleName);
+        }
+    
+        return $fullName;
+    }
+    
 
 
 public function getImage()
