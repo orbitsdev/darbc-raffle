@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Prize;
+
 use App\Models\Member;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

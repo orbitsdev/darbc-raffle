@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Http\Controllers\FilamentForm;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\WinnerResource\Pages;
@@ -32,7 +33,17 @@ class WinnerResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('event.name')->searchable() ,
+                Tables\Columns\TextColumn::make('member')->formatStateUsing(function (Model $record) {
+                    return $record->member->fullname;
+                })
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query->whereHas('member', function ($query) use ($search) {
+                            $query->where('first_name', 'like', "%{$search}%")
+                                ->orWhere('last_name', 'like', "%{$search}%")
+                                ->orWhere('middle_name', 'like', "%{$search}%")
+                                ;
+                        });
+                    }),
                 TextColumn::make('prize.name')->searchable() ,
                 
             ])
