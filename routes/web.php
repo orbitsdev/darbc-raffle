@@ -20,6 +20,7 @@ Route::get('/', function () {
     return redirect('/admin');
 });
 
+
 Route::get('/raffles/{event_id}', RaffleDraw::class)->name('raffle.draw');
 Route::middleware([
     'auth:sanctum',

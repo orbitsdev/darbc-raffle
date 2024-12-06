@@ -74,8 +74,10 @@ class MemberResource extends Resource
                 ->label('Clear All Members')
                 
                 ->icon('heroicon-o-trash')
-                ->button()
-              
+                ->button()  
+                ->hidden(function () {
+                    return Member::count() === 0;
+                })
                 ->outlined()
                 ->requiresConfirmation() // Ask for confirmation before clearing
                 ->modalHeading('Confirm Table Clear')
