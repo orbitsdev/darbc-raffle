@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Http\Controllers\GlobalActionController;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Member;
@@ -10,20 +9,23 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Imports\MembersImport;
 use Filament\Resources\Resource;
+use Filament\Actions\StaticAction;
+use Illuminate\Support\Facades\DB;
 use Filament\Tables\Actions\Action;
+use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\FilamentForm;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Filament\Tables\Actions\ActionGroup;
+
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\MemberResource\Pages;
 
+use App\Filament\Resources\MemberResource\Pages;
+use App\Http\Controllers\GlobalActionController;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\MemberResource\RelationManagers;
-
-use Filament\Actions\StaticAction;
-use Illuminate\Contracts\View\View;
 
 
 class MemberResource extends Resource
@@ -68,6 +70,27 @@ class MemberResource extends Resource
             ])
 
             ->headerActions([
+                Action::make('Clear Table')
+                ->label('Clear All Members')
+                
+                ->icon('heroicon-o-trash')
+                ->button()
+              
+                ->outlined()
+                ->requiresConfirmation() // Ask for confirmation before clearing
+                ->modalHeading('Confirm Table Clear')
+                ->modalSubheading('Are you sure you want to delete all members? This action cannot be undone.')
+                ->action(function (): void {
+                   
+                   DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+Member::truncate();
+DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+                    
+
+                    
+                })
+                ->closeModalByClickingAway(false) // Disable closing by clicking outside
+                ->modalWidth('md'),
                 Action::make('total mebers')
                 ->label('Total Members')
                 ->modalSubmitAction(false)
