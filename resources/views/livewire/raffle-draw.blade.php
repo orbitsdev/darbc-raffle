@@ -20,9 +20,9 @@
     <div class="flex flex-col items-center">
         <label for="prize" class="text-white text-lg font-semibold mb-2">Select a Prize:</label>
         <select 
-            id="prize" 
-            wire:model="prizeId"
-            class="p-3 bg-gray-800 text-white border border-gray-400 rounded focus:outline-none focus:ring focus:ring-blue-400"
+        id="prize" 
+        wire:model="prizeId"
+        class="w-64 p-3 bg-gray-800 text-white border-2 border-blue-500 rounded-lg focus:outline-none focus:ring focus:ring-blue-400 text-center"
         >
             <option value="" selected>Select a Prize</option>
             @foreach($prizes as $prize)
@@ -33,7 +33,7 @@
 
     <!-- Raffle Button -->
     <button 
-        class="rounded-lg bg-blue-500 text-white px-8 py-3 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all mt-8 "
+        class="rounded-lg bg-blue-500 text-white px-8 py-3 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all mt-24 "
         wire:click="raffle" 
         @if($isRunning) disabled @endif
     >
