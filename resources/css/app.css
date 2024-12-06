@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+[x-cloak] {
+    display: none;
+}
+
+
+#winner-announcement {
+    animation: glow 1.5s infinite alternate;
+    text-align: center;
+    font-size: 2rem;
+    color: gold;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px gold, 0 0 20px yellow;
+    }
+    to {
+        text-shadow: 0 0 20px yellow, 0 0 30px gold;
+    }
+}
