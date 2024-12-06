@@ -15,7 +15,10 @@
             <td align="left" width="40">{{ $winner->member->full_name ?? 'N/A' }}</td>
             <td align="left" width="40">{{ $winner->prize->name ?? 'N/A' }}</td>
             <td align="left" width="40">{{ $winner->prize->event->name ?? 'N/A' }}</td>
-            <td align="left" width="40">{{ $winner->created_at ? $winner->created_at->format('m/d/Y') : 'N/A' }}</td>
+            <td align="left" width="40">
+                {{ $winner->created_at ? $winner->created_at->isoFormat('MMMM D, YYYY h:mm A') : 'N/A' }}
+            </td>
+            
         </tr>
         @endforeach
     </tbody>
