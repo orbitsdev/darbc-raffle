@@ -151,7 +151,7 @@ DB::statement('SET FOREIGN_KEY_CHECKS=1;');
                - **Middle Name**: The member\'s middle name (optional).
                - **Last Name**: The member\'s last name.
                - **DARBC ID**: This must be unique for each member.
-            //    - **Status**: Use `1` for active or `0` for inactive status.
+            
             3. If updating existing members, ensure the "DARBC ID" matches records in the system. Otherwise, new members will be created.
             4. Verify your data before uploading to prevent errors.
             
