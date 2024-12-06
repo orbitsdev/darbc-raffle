@@ -62,10 +62,13 @@ class RaffleDraw extends Component
         $this->isRunning = true; // Set the spinner state to true
 
         $applicants = Member::where('status', true)
-            ->whereDoesntHave('winners', function ($query) {
-                $query->where('prize_id', $this->prizeId);
-            })
-            ->inRandomOrder()
+        ->whereDoesntHave('winners', function ($query) {
+            $query->where('prize_id', $this->prizeId)
+                  ->whereHas('prize', function ($prizeQuery) {
+                      $prizeQuery->where('event_id', $this->eventId);
+                  });
+        })
+        ->inRandomOrder()
             ->get();
 
         if ($applicants->isEmpty()) {

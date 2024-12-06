@@ -22,7 +22,7 @@ class WinnersExport implements FromView
             'winners' => Winner::with('member', 'prize')
                 ->whereHas('prize', function ($query) {
                     $query->where('event_id', $this->event->id);
-                })
+                })->latest()
                 ->get(),
         ]);
     }
