@@ -42,7 +42,7 @@ class RaffleDraw extends Component
     {
         return view('livewire.raffle-draw', [
             'prizes' => $this->eventId
-                ? Prize::where('event_id', $this->eventId)->get()
+                ? Prize::where('event_id', $this->eventId)->where('quantity','>',0)->get()
                 : collect(),
         ]);
     }
@@ -94,7 +94,7 @@ class RaffleDraw extends Component
         if ($this->selectedPrize) {
             $this->selectedPrize->decrement('quantity');
         }
-
+        $this->dispatch('raffle-winner-drawn'); 
         $this->buttonMessage = 'Draw Again!';
         $this->isRunning = false; // Reset spinner state
     }

@@ -12,6 +12,6 @@ Livewire.on('raffle-winner-drawn', (data) => {
     });
 
     // Play sound
-    const audio = new Audio('/sounds/winner.mp3');
-    audio.play();
+    // const audio = new Audio('/sounds/winner.mp3');
+    // audio.play();
 });
