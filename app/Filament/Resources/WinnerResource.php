@@ -33,6 +33,13 @@ class WinnerResource extends Resource
     {
         return $table
             ->columns([
+
+                TextColumn::make('event.name')->label('Event')
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query->whereHas('event', function ($query) use ($search) {
+                            $query->where('name', 'like', "%{$search}%");
+                        });
+                    }),
                 Tables\Columns\TextColumn::make('member')->formatStateUsing(function (Model $record) {
                     return $record->member->fullName;
                 })
