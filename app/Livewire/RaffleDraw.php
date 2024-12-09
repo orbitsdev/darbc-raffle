@@ -6,18 +6,18 @@ use App\Models\Prize;
 use App\Models\Member;
 use App\Models\Winner;
 use Livewire\Component;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 
 class RaffleDraw extends Component
 {
-   
-    public ?Member $winner = null; // Store the final winner
-    public string $buttonMessage = 'Start Raffle!'; // Button text
-    public $prizeId = null; // Selected prize ID
-    public $eventId = null; // Event ID for filtering prizes
-    protected ?Prize $selectedPrize = null; // Cache the selected prize object
-    public bool $isRunning = false; // Indicates if the raffle process is ongoing
+
+    public ?Member $winner = null;
+    public string $buttonMessage = 'Start Raffle!';
+    public $prizeId = null;
+    public $eventId = null;
+    protected ?Prize $selectedPrize = null;
+    public bool $isRunning = false; //
 
     #[Title('Raffle Draw')]
     public function mount($event_id = null)
@@ -27,7 +27,7 @@ class RaffleDraw extends Component
 
     public function updatedPrizeId()
     {
-        $this->selectedPrize = $this->prizeId ? Prize::find($this->prizeId) : null; // Fetch and cache the selected prize
+        $this->selectedPrize = $this->prizeId ? Prize::find($this->prizeId) : null;
     }
 
     public function hasQuantity(): bool
@@ -39,7 +39,7 @@ class RaffleDraw extends Component
     }
 
     public function render()
-    {
+{
         return view('livewire.raffle-draw', [
             'prizes' => $this->eventId
                 ? Prize::where('event_id', $this->eventId)->where('quantity','>',0)->get()
@@ -59,7 +59,7 @@ class RaffleDraw extends Component
             return;
         }
 
-        $this->isRunning = true; // Set the spinner state to true
+        $this->isRunning = true; 
 
         $applicants = Member::where('status', true)
         ->whereDoesntHave('winners', function ($query) {
@@ -73,7 +73,7 @@ class RaffleDraw extends Component
 
         if ($applicants->isEmpty()) {
             session()->flash('error', 'No eligible participants left for this prize.');
-            $this->isRunning = false; // Reset spinner state
+            $this->isRunning = false;
             return;
         }
 
@@ -97,10 +97,10 @@ class RaffleDraw extends Component
         if ($this->selectedPrize) {
             $this->selectedPrize->decrement('quantity');
         }
-        $this->dispatch('raffle-winner-drawn'); 
+        $this->dispatch('raffle-winner-drawn');
         $this->buttonMessage = 'Draw Again!';
-        $this->isRunning = false; // Reset spinner state
+        $this->isRunning = false;
     }
 
-    
+
 }

@@ -44,16 +44,16 @@ class MemberResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('fullname')
-                ->searchable(isIndividual: true),
+                Tables\Columns\TextColumn::make('fullname'),
                 Tables\Columns\TextColumn::make('darbc_id')
+                ->searchable(isIndividual: true)->label('DARBC ID'),
+                Tables\Columns\TextColumn::make('last_name')
                 ->searchable(isIndividual: true),
                 Tables\Columns\TextColumn::make('first_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('middle_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('last_name')
-                ->searchable(isIndividual: true),
+
                 // Tables\Columns\TextColumn::make('id_number')
                 //     ->searchable(),
                 // Tables\Columns\TextColumn::make('created_at')
@@ -72,9 +72,9 @@ class MemberResource extends Resource
             ->headerActions([
                 Action::make('Clear Table')
                 ->label('Clear All Members')
-                
+
                 ->icon('heroicon-o-trash')
-                ->button()  
+                ->button()
                 ->hidden(function () {
                     return Member::count() === 0;
                 })
@@ -83,13 +83,13 @@ class MemberResource extends Resource
                 ->modalHeading('Confirm Table Clear')
                 ->modalSubheading('Are you sure you want to delete all members? This action cannot be undone.')
                 ->action(function (): void {
-                   
+
                    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 Member::truncate();
 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-                    
 
-                    
+
+
                 })
                 ->closeModalByClickingAway(false) // Disable closing by clicking outside
                 ->modalWidth('md'),
@@ -112,7 +112,7 @@ DB::statement('SET FOREIGN_KEY_CHECKS=1;');
                 Action::make('Import')
                 ->button()
                 ->action(function (array $data): void {
-                   
+
 
                     $file  = Storage::disk('public')->path($data['file']);
 
@@ -123,7 +123,7 @@ DB::statement('SET FOREIGN_KEY_CHECKS=1;');
                         Storage::disk('public')->delete($data['file']);
                     }
 
-                    
+
                 })
                 ->icon('heroicon-o-arrow-up-tray')
                 ->form([
@@ -144,19 +144,19 @@ DB::statement('SET FOREIGN_KEY_CHECKS=1;');
                 ->label('Import Members')
                 ->modalHeading('Upload Member File')
                 ->modalDescription('Follow these instructions to import members into the system:
-            
+
             1. Ensure your file is in the correct format (`.xlsx`, `.xls`, or `.csv`).
             2. The file must include these columns:
                - **First Name**: The member\'s first name.
                - **Middle Name**: The member\'s middle name (optional).
                - **Last Name**: The member\'s last name.
                - **DARBC ID**: This must be unique for each member.
-            
+
             3. If updating existing members, ensure the "DARBC ID" matches records in the system. Otherwise, new members will be created.
             4. Verify your data before uploading to prevent errors.
-            
+
             Thank you for your cooperation!')
-            
+
             ])
             ->actions([
                 ActionGroup::make([
