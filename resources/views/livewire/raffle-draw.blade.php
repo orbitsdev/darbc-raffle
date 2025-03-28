@@ -15,8 +15,8 @@
         <div class="absolute bottom-16 flex flex-col items-center space-y-4">
             <!-- Prize Dropdown -->
             <label for="prize" class="text-white text-lg font-semibold">Select a Prize:</label>
-            <select 
-                id="prize" 
+            <select
+                id="prize"
                 wire:model="prizeId"
                 class="w-64 p-3 bg-gray-800 text-white border-2 border-blue-500 rounded-lg focus:outline-none focus:ring focus:ring-blue-400 text-center"
             >
@@ -26,18 +26,27 @@
                 @endforeach
             </select>
 
-            <!-- Raffle Button -->
-            <button 
-                class="rounded-lg bg-blue-500 text-white px-8 py-3 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all"
-                wire:click="raffle" 
-                @if($isRunning) disabled @endif
-            >
-                @if($isRunning)
-                    <span class="loader"></span> <!-- Spinner -->
-                @else
-                    {{ $buttonMessage }}
-                @endif
-            </button>
+
+         <!-- Raffle Button -->
+<!-- Raffle Button -->
+<button
+    wire:click="raffle"
+    wire:loading.attr="disabled"
+    class="rounded-lg bg-blue-500 text-white px-8 py-3 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-md transition-all flex items-center justify-center space-x-2"
+>
+    <span wire:loading>
+        <span class="animate-spin border-4 border-white border-t-transparent rounded-full w-6 h-6 inline-block"></span>
+        <span>Drawing...</span>
+    </span>
+
+    <span wire:loading.remove>
+        {{ $buttonMessage }}
+    </span>
+</button>
+
+
+
+
 
             <!-- Error Message -->
             @if (session('error'))
